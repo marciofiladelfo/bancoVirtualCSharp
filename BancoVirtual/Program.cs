@@ -1,5 +1,6 @@
 ﻿using System;
 using BancoVirtual.Funcionarios;
+using BancoVirtual.Sistemas;
 
 namespace BancoVirtual
 {
@@ -7,11 +8,33 @@ namespace BancoVirtual
     {
         static void Main(string[] args)
         {
+            CadastrarCliente();
+            Console.WriteLine();
+            CadastrarContas();
+            Console.WriteLine();
+            CalcularBonificacao();
+            Console.WriteLine();
+            UsarSistemaInterno();
+
+            Console.ReadLine();
+        }
+
+        public static void CadastrarCliente()
+        {
             Cliente c1 = new Cliente();
             c1.Nome = "Gabriela";
             c1.Cpf = "999.888.777-66";
             c1.Profissao = "Dev C#";
 
+            Cliente c2 = new Cliente();
+            c2.Nome = "Matheus";
+            c2.Cpf = "111.222.333-44";
+            c2.Profissao = "Dev Java";
+        }
+
+        public static void CadastrarContas()
+        {
+            Cliente c1 = new Cliente();
             ContaCorrente conta1 = new ContaCorrente(0001, 36887);
             conta1.Titular = c1;
             conta1.Saldo = 100.00;
@@ -29,10 +52,6 @@ namespace BancoVirtual
             Console.WriteLine();
 
             Cliente c2 = new Cliente();
-            c2.Nome = "Matheus";
-            c2.Cpf = "111.222.333-44";
-            c2.Profissao = "Dev Java";
-
             ContaCorrente conta2 = new ContaCorrente(0001, 34544);
             conta2.Titular = c2;
             conta2.Saldo = 200.00;
@@ -49,35 +68,56 @@ namespace BancoVirtual
 
             Console.WriteLine();
             Console.WriteLine("Total de contas criadas: " + ContaCorrente.Total);
+        }
 
-            GerenciarBonificacao gerenciador = new GerenciarBonificacao();
+        public static void UsarSistemaInterno()
+        {
+            SistemaInterno sistemaInterno = new SistemaInterno();
 
-            Console.WriteLine();
-            Funcionario func1 = new Funcionario();
-            func1.Nome = "Carlos";
-            func1.Cpf = "333.444.555-66";
-            func1.Salario = 2800.00;
+            Diretor roberta = new Diretor("159.753.398-04");
+            roberta.Nome = "Roberta";
+            roberta.Senha = "1234";
 
-            gerenciador.Registrar(func1);
-            Console.WriteLine();
+            GerenteDeConta camila = new GerenteDeConta("326.985.628-89");
+            camila.Nome = "Camila";
+            camila.Senha = "4321";
 
-            Funcionario dir1 = new Diretor();
-            dir1.Nome = "Roberta";
-            dir1.Cpf = "222.666.777-99";
-            dir1.Salario = 5000.00;
+            ParceiroComercial parceiro = new ParceiroComercial();
+            parceiro.Senha = "0987";
 
-            gerenciador.Registrar(dir1);
+            sistemaInterno.Logar(roberta, "1234");
+            sistemaInterno.Logar(camila, "1234");
+            sistemaInterno.Logar(parceiro, "0987");
+        }
 
-            Console.WriteLine(func1.Nome);
-            Console.WriteLine("Funcionario " + func1.GetBonificacao());
+        public static void CalcularBonificacao()
+        {
+            GerenciarBonificacao gerenciadorBonificacao = new GerenciarBonificacao();
 
-            Console.WriteLine(dir1.Nome);
-            Console.WriteLine("Diretor " + dir1.GetBonificacao());
+            Funcionario pedro = new Designer("833.222.048-39");
+            pedro.Nome = "Pedro";
 
-            Console.WriteLine();
-            Console.WriteLine("A bonificação Total é:" + gerenciador.GetTotalBonificacao());
+            Funcionario roberta = new Diretor("159.753.398-04");
+            roberta.Nome = "Roberta";
 
-            Console.ReadLine();
+            Funcionario igor = new Auxiliar("981.198.778-53");
+            igor.Nome = "Igor";
+
+            Funcionario camila = new GerenteDeConta("326.985.628-89");
+            camila.Nome = "Camila";
+
+            Funcionario marcio = new Desenvolvedor("326.985.628-89");
+            marcio.Nome = "Marcio";
+
+            gerenciadorBonificacao.Registrar(marcio);
+            gerenciadorBonificacao.Registrar(pedro);
+            gerenciadorBonificacao.Registrar(roberta);
+            gerenciadorBonificacao.Registrar(igor);
+            gerenciadorBonificacao.Registrar(camila);
+
+            Console.WriteLine("Total de bonificações do mês " +
+                gerenciadorBonificacao.GetTotalBonificacao());
         }
     }
 }
+

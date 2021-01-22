@@ -5,17 +5,18 @@ using System.Text;
 
 namespace BancoVirtual.Funcionarios
 {
-    public class Diretor : FuncionarioAutenticavel
+    public class GerenteDeConta : FuncionarioAutenticavel
     {
-        public Diretor(string cpf) : base(5000, cpf){ }
+        public GerenteDeConta(string cpf) : base(4000, cpf) { }
 
         public override void AumentarSalario()
         {
-            Salario *= 1.15;
+            Salario *= 1.05;
         }
+
         public override double GetBonificacao()
         {
-            return Salario * 0.5;
+            return Salario * 0.25;
         }
     }
 }
